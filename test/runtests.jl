@@ -1,10 +1,20 @@
 using CommonRLInterface
 using Test
 
+function f end
+
+# h needs to be out here for the inference to work for some reason
+function h(x)
+    if provided(f, x)
+        return f(x)
+    else
+        return sin(x)
+    end
+end
+
 @testset "providing" begin
 
-f() =  nothing
-# function f end doesn't work for some reason
+global f, h
 
 @test_throws MethodError f(2)
 @test provided(f, 2) == false
@@ -24,6 +34,8 @@ end
 
 @test provided(f, 2.0) == false
 @test provided(f, Tuple{Float64}) == false
+
+@test @inferred(h(2)) == f(2)::Int
 
 g() = nothing
 
