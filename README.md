@@ -81,6 +81,8 @@ function CommonRLInterface.step!(m::LQREnv, a)
 end
 
 CommonRLInterface.actions(m::LQREnv) = (-1.0, 0.0, 1.0)
+
+@provide CommonRLInterface.clone(m::LQREnv) = LQREnv(m.s)
 ```
 
 ### What does a simulation with a random policy look like?
