@@ -41,7 +41,7 @@ A particular `CommonEnv` can opt-in to providing the `clone` function with the `
 
 ### What does it mean for an RL Framework to "support" CommonEnv?
 
-Suppose you have an environment type in your package called `YourEnv`. Support for CommonEnv means:
+Suppose you have an abstract environment type in your package called `YourEnv`. Support for CommonEnv means:
 
 1. You provide a constructor method
     ```julia
