@@ -1,6 +1,40 @@
 using CommonRLInterface
 using Test
 
+@testset "from README" begin
+    mutable struct LQREnv <: AbstractEnv
+        s::Float64
+    end
+
+    function CommonRLInterface.reset!(m::LQREnv)
+        m.s = 0.0
+    end
+
+    function CommonRLInterface.step!(m::LQREnv, a)
+        r = -m.s^2 - a^2
+        sp = m.s = m.s + a + randn()
+        return sp, r, false, NamedTuple()
+    end
+
+    CommonRLInterface.actions(m::LQREnv) = (-1.0, 0.0, 1.0)
+
+    env = LQREnv(0.0)
+    done = false
+    o = reset!(env)
+    acts = actions(env)
+    rsum = 0.0
+    step = 1
+    while !done && step <= 10
+        o, r, done, info = step!(env, rand(acts)) 
+        r += rsum
+        step += 1
+    end
+    @show rsum
+end
+
+
+# tests to be enabled in v0.2
+#=
 function f end
 
 # h needs to be out here for the inference to work for some reason
@@ -55,3 +89,4 @@ struct MyCommonEnv <: CommonEnv end
 @test clone(MyCommonEnv()) == MyCommonEnv()
 
 end
+=#

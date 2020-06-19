@@ -3,11 +3,11 @@ uuid = "d842c3ba-07a1-494f-bbec-f5741b0a3e98"
 authors = ["Zachary Sunberg <sunbergzach@gmail.com> and contributors"]
 version = "0.1.0"
 
-[deps]
-MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+# [deps]
+# MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 
 [compat]
-MacroTools = "0.5"
+# MacroTools = "0.5"
 julia = "1.4"
 
 [extras]

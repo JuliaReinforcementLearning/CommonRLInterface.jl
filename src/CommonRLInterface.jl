@@ -1,14 +1,14 @@
 module CommonRLInterface
 
-using MacroTools
+# using MacroTools
 
 export
-    CommonEnv,
+    AbstractEnv,
     step!,
     reset!,
     actions
 
-abstract type CommonEnv end
+abstract type AbstractEnv end
 
 """
     o, r, done, info = step!(env, a)
@@ -35,6 +35,8 @@ TODO: document concept of a set.
 """
 function actions end
 
+# Below to be enabled in v0.2
+#=
 export
     provided,
     @provide
@@ -99,5 +101,6 @@ Create a clone of CommonEnv `env` at the current state.
 Two clones are assumed to be completely independent of each other - no action applied to one will affect the other.
 """
 function clone end
+=#
 
 end
