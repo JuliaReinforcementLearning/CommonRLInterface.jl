@@ -35,8 +35,6 @@ TODO: document concept of a set.
 """
 function actions end
 
-# Below to be enabled in v0.2
-#=
 export
     provided,
     @provide
@@ -88,19 +86,16 @@ macro provide(f)
     end
 end
 
-## Optional Functions ##
-# In the future, these will go in separate files
+export
+    clone,
+    render
+include("environment.jl")
 
-export clone
+export
+    observations,
+    valid_actions,
+    valid_action_mask
+include("spaces.jl")
 
-"""
-    clone(env)
-
-Create a clone of CommonEnv `env` at the current state.
-
-Two clones are assumed to be completely independent of each other - no action applied to one will affect the other.
-"""
-function clone end
-=#
 
 end
