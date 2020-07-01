@@ -1,6 +1,6 @@
 module CommonRLInterface
 
-# using MacroTools
+using MacroTools
 
 export
     AbstractEnv,
@@ -13,25 +13,23 @@ abstract type AbstractEnv end
 """
     o, r, done, info = step!(env, a)
 
-Advance CommonEnv `env` forward one step with action `a`.
+Advance AbstractEnv `env` forward one step with action `a`.
 
-This function should be provided by every CommonEnv and should return an observation, reward, Boolean done signal, and any extra information (typically in a NamedTuple).
+This function should be provided by every AbstractEnv and should return an observation, reward, Boolean done signal, and any extra information (typically in a NamedTuple).
 """
 function step! end
 
 """
     o = reset!(env)
 
-Reset CommonEnv `env` to its initial state and return an initial observation.
+Reset `env` to its initial state and return an initial observation.
 """
 function reset! end
 
 """
     actions(env)
 
-Return a container of all of the actions available to the agent in CommonEnv `env`.
-
-TODO: document concept of a set.
+Return a collection of all of the actions available to the agent in AbstractEnv `env`.
 """
 function actions end
 
@@ -59,10 +57,31 @@ function provided end
 provided(f::Function, args...) = provided(f, typeof(args))
 provided(f::Function, ::Type{<:Tuple}) = false
 
-provided(::typeof(step!), ::Type{<:Tuple{CommonEnv, Any}}) = true
-provided(::typeof(reset!), ::Type{<:Tuple{CommonEnv}}) = true
-provided(::typeof(actions), ::Type{<:Tuple{CommonEnv}}) = true
+provided(::typeof(step!), ::Type{<:Tuple{AbstractEnv, Any}}) = true
+provided(::typeof(reset!), ::Type{<:Tuple{AbstractEnv}}) = true
+provided(::typeof(actions), ::Type{<:Tuple{AbstractEnv}}) = true
 
+"""
+    @provide f(x::X) = x^2
+
+Indicate that function `f` has been implemented for arguments of type `X`.
+
+This will automatically implement the appropriate methods of `provided`. Both the long and short function definition forms will work.
+
+# Example
+```jldoctest
+using CommonRLInterface
+
+struct MyEnv <: AbstractEnv end
+
+@assert provided(clone, MyEnv()) == false
+
+@provide function CommonRLInterface.clone(env::MyEnv)
+    return deepcopy(env)
+end
+
+@assert provided(clone, MyEnv()) == true
+"""
 macro provide(f)
     def = splitdef(f) # TODO: probably give a better error message that mentions @provide if this fails
     @assert isempty(def[:kwargs]) "@provide does not support keyword args yet."
