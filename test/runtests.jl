@@ -10,45 +10,65 @@ using Test
         m.s = 0.0
     end
 
-    function CommonRLInterface.step!(m::LQREnv, a)
+    CommonRLInterface.actions(m::LQREnv) = (-1.0, 0.0, 1.0)
+
+    function CommonRLInterface.act!(m::LQREnv, a)
         r = -m.s^2 - a^2
-        sp = m.s = m.s + a + randn()
-        return sp, r, false, NamedTuple()
+        m.s = m.s + a + randn()
+        return r, false, NamedTuple()
     end
 
-    CommonRLInterface.actions(m::LQREnv) = (-1.0, 0.0, 1.0)
+    CommonRLInterface.observe(m::LQREnv) = m.s
+
+    # from version 0.2 on, you can implement optional functions like this:
+    # @provide CommonRLInterface.clone(m::LQREnv) = LQREnv(m.s)
 
     env = LQREnv(0.0)
     done = false
-    o = reset!(env)
+    reset!(env)
     acts = actions(env)
     rsum = 0.0
     step = 1
     while !done && step <= 10
-        o, r, done, info = step!(env, rand(acts)) 
+        r, done, info = act!(env, rand(acts)) 
         r += rsum
         step += 1
     end
     @show rsum
 end
 
-mutable struct MyEnv <: AbstractEnv
+# a reference MarkovEnv
+mutable struct MyEnv <: AbstractMarkovEnv
     state::Int
 end
 MyEnv() = MyEnv(1)
-
 function CommonRLInterface.reset!(env::MyEnv)
     env.state = 1
 end
-
-function CommonRLInterface.step!(env::MyEnv, a)
-    o = env.state = clamp(env.state + a, 1, 10)
-    return o, -o^2, false, NamedTuple()
-end
-
 CommonRLInterface.actions(env::MyEnv) = (-1, 0, 1)
-
+CommonRLInterface.observe(env::MyEnv) = env.state
+function CommonRLInterface.act!(env::MyEnv, a)
+    env.state = clamp(env.state + a, 1, 10)
+    return -o^2, false, NamedTuple()
+end
 env = MyEnv(1)
+
+# a reference ZeroSumEnv
+mutable struct MyGame <: AbstractZeroSumEnv
+    state::Int
+end
+MyGame() = MyGame(1)
+function CommonRLInterface.reset!(env::MyGame)
+    env.state = 1
+end
+CommonRLInterface.actions(env::MyGame) = (-1, 1)
+CommonRLInterface.observe(env::MyGame) = env.state
+function CommonRLInterface.act!(env::MyGame, a)
+    env.state = clamp(env.state + a, 1, 10)
+    return -o^2, false, NamedTuple()
+end
+CommonRLInterface.player(env::MyGame) = 1 + iseven(env.state)
+game = MyGame()
 
 function f end
 
@@ -96,6 +116,10 @@ end
 
     @test provided(reset!, MyEnv())
     @test !provided(clone, MyEnv())
+    @test !provided(player, MyEnv())
+    @test !provided(actions, MyEnv(), 1)
+
+    @test provided(player, MyGame())
 end
 
 @testset "environment" begin

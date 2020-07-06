@@ -1,9 +1,7 @@
 """
     valid_actions(env)
 
-Return a collection of actions that are appropriate for the current state.
-
-This should be a subset of actions(env).
+Return a collection of actions that are appropriate for the current state. This should be a subset of actions(env).
 """
 function valid_actions end
 
@@ -19,6 +17,8 @@ function valid_action_mask end
 """
     observations(env)
 
-Return a collection of all observations that might be returned by `step!(env)` or `reset!(env)`.
+Return a collection of all observations that might be returned by `observe(env)`.
+
+This function is a *static property* of the environment; the value it returns should not change based on the state.
 """
 function observations end
