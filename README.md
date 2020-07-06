@@ -22,7 +22,30 @@ actions(env)    # returns the set of all possible actions for the environment
 
 ## Optional Interface
 
-In the near future, a number of optional interface functions will be added. Please file an issue if you would like to see a particular interface function.
+There are several additional functions that are currently optional:
+- `clone`
+- `render`
+- `valid_actions`
+- `valid_action_mask`
+- `observations`
+
+To see documentation for one of these functions, use [Julia's built-in help system](https://docs.julialang.org/en/v1/manual/documentation/index.html#Accessing-Documentation-1).
+
+To indicate that an environment that you created implements one of these optional functions, use the `@provide` macro, e.g.
+```julia
+@provide CommonRLInterface.clone(env::MyEnv) = deepcopy(env)
+```
+
+To check whether an optional function has been implemented for an environment, use `provided`, e.g.
+```julia
+if provided(valid_actions, env)
+    acts = valid_actions(env)
+else
+    acts = actions(env)
+end
+```
+
+To propose adding a new function to the interface, please file an issue with the "candidate interface function" label.
 
 ## Additional info
 
@@ -40,9 +63,9 @@ Suppose you have an abstract environment type in your package called `YourEnv`. 
 2. You provide an implementation of the interface functions from your framework only using functions from CommonRLInterface
 
 4. You implement at minimum
-    - `CommonRL.reset!(::YourCommonEnv)`
-    - `CommonRL.step!(::YourCommonEnv, a)`
-    - `CommonRL.actions(::YourCommonEnv)`
+    - `CommonRLInterface.reset!(::YourCommonEnv)`
+    - `CommonRLInterface.step!(::YourCommonEnv, a)`
+    - `CommonRLInterface.actions(::YourCommonEnv)`
     and as many optional functions as you'd like to support, where `YourCommonEnv` is the concrete type returned by `convert(Type{AbstractEnv}, ::YourEnv)`
 
 ### What does an environment implementation look like?
