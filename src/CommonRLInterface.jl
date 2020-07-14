@@ -10,7 +10,8 @@ export
     actions,
     observe,
     act!,
-    player
+    player,
+    terminated
 
 abstract type AbstractEnv end
 
@@ -23,6 +24,7 @@ reset!(env)
 actions(env)
 observe(env)
 act!(env, a)
+terminated(env)
 ```
 """
 abstract type AbstractMarkovEnv <: AbstractEnv end
@@ -37,6 +39,7 @@ actions(env)
 player(env)
 observe(env)
 act!(env, a)
+terminated(env)
 ```
 """
 abstract type AbstractZeroSumEnv <: AbstractEnv end
@@ -85,7 +88,7 @@ Return an observation from the environment for the current player.
 function observe end
 
 """
-    r, done, info = act!(env::AbstractEnv, a)
+    r = act!(env::AbstractEnv, a)
 
 Take action `a` and advance AbstractEnv `env` forward one step.
 
@@ -102,6 +105,14 @@ This is a *required function* for all `AbstractZeroSumEnvs`.
 """
 function player end
 
+"""
+    terminated(env::AbstractEnv)
+
+Determine whether an environment has finished executing.
+
+If `terminated(env)` is true, no further actions should be taken and it is safe to assume that no further rewards will be received.
+"""
+function terminated end
 
 export
     provided,

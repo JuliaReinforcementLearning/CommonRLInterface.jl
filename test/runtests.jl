@@ -11,27 +11,22 @@ using Test
     end
 
     CommonRLInterface.actions(m::LQREnv) = (-1.0, 0.0, 1.0)
+    CommonRLInterface.observe(m::LQREnv) = m.s
+    CommonRLInterface.terminated(m::LQREnv) = false
 
     function CommonRLInterface.act!(m::LQREnv, a)
         r = -m.s^2 - a^2
         m.s = m.s + a + randn()
-        return r, false, NamedTuple()
+        return r
     end
 
-    CommonRLInterface.observe(m::LQREnv) = m.s
-
-    # from version 0.2 on, you can implement optional functions like this:
-    # @provide CommonRLInterface.clone(m::LQREnv) = LQREnv(m.s)
-
     env = LQREnv(0.0)
-    done = false
     reset!(env)
     acts = actions(env)
     rsum = 0.0
     step = 1
-    while !done && step <= 10
-        r, done, info = act!(env, rand(acts)) 
-        r += rsum
+    while !terminated(env) && step <= 10
+        rsum += act!(env, rand(acts)) 
         step += 1
     end
     @show rsum
@@ -47,9 +42,10 @@ function CommonRLInterface.reset!(env::MyEnv)
 end
 CommonRLInterface.actions(env::MyEnv) = (-1, 0, 1)
 CommonRLInterface.observe(env::MyEnv) = env.state
+CommonRLInterface.terminated(env::MyEnv) = false
 function CommonRLInterface.act!(env::MyEnv, a)
     env.state = clamp(env.state + a, 1, 10)
-    return -o^2, false, NamedTuple()
+    return -o^2
 end
 env = MyEnv(1)
 
@@ -63,9 +59,10 @@ function CommonRLInterface.reset!(env::MyGame)
 end
 CommonRLInterface.actions(env::MyGame) = (-1, 1)
 CommonRLInterface.observe(env::MyGame) = env.state
+CommonRLInterface.terminated(env::MyGame) = false
 function CommonRLInterface.act!(env::MyGame, a)
     env.state = clamp(env.state + a, 1, 10)
-    return -o^2, false, NamedTuple()
+    return -o^2
 end
 CommonRLInterface.player(env::MyGame) = 1 + iseven(env.state)
 game = MyGame()
