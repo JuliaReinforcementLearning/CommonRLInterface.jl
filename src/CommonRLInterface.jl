@@ -192,7 +192,9 @@ end
 
 export
     clone,
-    render
+    render,
+    state,
+    setstate!
 include("environment.jl")
 
 export

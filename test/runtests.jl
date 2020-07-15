@@ -129,6 +129,14 @@ end
     @provide CommonRLInterface.render(env::MyEnv) = "MyEnv with state $(env.state)"
     @test provided(render, MyEnv(1))
     @test render(MyEnv(1)) == "MyEnv with state 1"
+
+    @provide CommonRLInterface.state(env::MyEnv) = env.state
+    @provide function CommonRLInterface.setstate!(env::MyEnv, s) env.state = s end
+    @test provided(state, MyEnv(1))
+    @test state(MyEnv(1)) == 1
+    env1 = MyEnv(0)
+    setstate!(env1, 1)
+    @test state(env1) == 1
 end
 
 @testset "spaces" begin
