@@ -155,3 +155,5 @@ end
     @test provided(observations, env)
     @test observations(env) == 1:10
 end
+
+include("examples/gridworld.jl")
