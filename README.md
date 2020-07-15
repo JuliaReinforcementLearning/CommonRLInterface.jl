@@ -36,6 +36,8 @@ player(env)     # returns the index of the current player
 There are several additional functions that are currently optional:
 - `clone`
 - `render`
+- `state`
+- `setstate!`
 - `valid_actions`
 - `valid_action_mask`
 - `observations`
