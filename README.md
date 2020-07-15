@@ -92,11 +92,10 @@ end
 
 ```julia
 env = YourEnv()
-o = reset!(env)
-acts = actions(env)
+reset!(env)
 rsum = 0.0
 while !terminated(env)
-    rsum += act!(env, rand(acts)) 
+    rsum += act!(env, rand(actions(env))) 
 end
 @show rsum
 ```
