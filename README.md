@@ -17,12 +17,12 @@ To accomplish this, there are two abstract environment types:
 
 `AbstractEnv` is a base type for all environments.
 
-The interface has four required functions for all `AbstractEnv`s:
+The interface has five required functions for all `AbstractEnv`s:
 ```julia
 reset!(env)     # returns nothing
 actions(env)    # returns the set of all possible actions for the environment
 observe(env)    # returns an observation
-act!(env, a)    # returns a reward
+act!(env, a)    # steps the environment forward and returns a reward
 terminated(env) # returns true or false indicating whether the environment has finished
 ```
 
