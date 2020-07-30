@@ -1,14 +1,14 @@
 name = "CommonRLInterface"
 uuid = "d842c3ba-07a1-494f-bbec-f5741b0a3e98"
 authors = ["Zachary Sunberg <sunbergzach@gmail.com> and contributors"]
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 
 [compat]
 MacroTools = "0.5"
-julia = "1.4"
+julia = "1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
