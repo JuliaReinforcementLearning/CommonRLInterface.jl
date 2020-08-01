@@ -7,7 +7,7 @@ end
     env = GW.GridWorld()
     reset!(env)
     while !terminated(env)
-        act!(env, rand(actions(env)))
+        act!(env, actions(env)[rand(1:length(actions(env)))])
         render(env)
     end
     @test haskey(env.rewards, state(env))
