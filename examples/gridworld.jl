@@ -29,7 +29,7 @@ RL.terminated(env::GridWorld) = haskey(env.rewards, env.state)
 
 function RL.act!(env::GridWorld, a)
     if rand() < 0.4 # 40% chance of going in a random direction (=30% chance of going in a wrong direction)
-        a = actions(env)[rand(1:length(actions(env)))]
+        a = rand(actions(env))
     end
 
     env.state = clamp.(env.state + a, SA[1,1], env.size)
