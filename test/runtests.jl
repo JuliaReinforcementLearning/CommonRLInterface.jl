@@ -1,16 +1,17 @@
 using CommonRLInterface
 using Test
 
+mutable struct LQREnv <: AbstractEnv
+    s::Float64
+end
+
 @testset "from README" begin
-    mutable struct LQREnv <: AbstractEnv
-        s::Float64
-    end
 
     function CommonRLInterface.reset!(m::LQREnv)
         m.s = 0.0
     end
 
-    CommonRLInterface.actions(m::LQREnv) = (-1.0, 0.0, 1.0)
+    CommonRLInterface.actions(m::LQREnv) = [-1.0, 0.0, 1.0]
     CommonRLInterface.observe(m::LQREnv) = m.s
     CommonRLInterface.terminated(m::LQREnv) = false
 
@@ -40,7 +41,7 @@ MyEnv() = MyEnv(1)
 function CommonRLInterface.reset!(env::MyEnv)
     env.state = 1
 end
-CommonRLInterface.actions(env::MyEnv) = (-1, 0, 1)
+CommonRLInterface.actions(env::MyEnv) = [-1, 0, 1]
 CommonRLInterface.observe(env::MyEnv) = env.state
 CommonRLInterface.terminated(env::MyEnv) = false
 function CommonRLInterface.act!(env::MyEnv, a)
@@ -57,7 +58,7 @@ MyGame() = MyGame(1)
 function CommonRLInterface.reset!(env::MyGame)
     env.state = 1
 end
-CommonRLInterface.actions(env::MyGame) = (-1, 1)
+CommonRLInterface.actions(env::MyGame) = [-1, 1]
 CommonRLInterface.observe(env::MyGame) = env.state
 CommonRLInterface.terminated(env::MyGame) = false
 function CommonRLInterface.act!(env::MyGame, a)
@@ -140,7 +141,7 @@ end
 end
 
 @testset "spaces" begin
-    @provide CommonRLInterface.valid_actions(env::MyEnv) = (0, 1)
+    @provide CommonRLInterface.valid_actions(env::MyEnv) = [0, 1]
     @test provided(valid_actions, env)
     @test issubset(valid_actions(env), actions(env))
 
@@ -156,4 +157,6 @@ end
     @test observations(env) == 1:10
 end
 
-include("examples/gridworld.jl")
+if VERSION >= v"1.4" # not sure if this is the actual minimal version, but I know it will work
+    include("examples/gridworld.jl")
+end

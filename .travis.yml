@@ -4,6 +4,7 @@ notifications:
   email: false
 julia:
   - 1
+  - 1.0
 os:
   - linux
   - osx
