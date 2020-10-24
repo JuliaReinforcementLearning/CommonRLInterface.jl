@@ -21,7 +21,7 @@ using Plots
 
 struct MyEnv <: AbstractEnv
     state::Tuple{Int, Int}
-env
+end
 
 @provide CommonRLInterface.render(env::MyEnv) = scatter(env.state[1], env.state[2])
 ```
