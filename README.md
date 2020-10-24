@@ -107,8 +107,8 @@ Suppose you have an abstract environment type in your package called `YourEnv`. 
 
 1. You provide a convert methods
     ```julia
-    convert(Type{YourEnv}, ::AbstractEnv)
-    convert(Type{AbstractEnv}, ::YourEnv)
+    convert(::Type{YourEnv}, ::AbstractEnv)
+    convert(::Type{AbstractEnv}, ::YourEnv)
     ```
     If there are additional options in the conversion, you are encouraged to create and document constructors with additional arguments.
 
