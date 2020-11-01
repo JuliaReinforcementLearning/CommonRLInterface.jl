@@ -81,11 +81,11 @@ CommonRLInterface.terminated(m::LQREnv) = false
 function CommonRLInterface.act!(m::LQREnv, a)
     r = -m.s^2 - a^2
     m.s = m.s + a + randn()
-    return r, false, NamedTuple()
+    return r
 end
 
-# from version 0.2 on, you can implement optional functions like this:
-# @provide CommonRLInterface.clone(m::LQREnv) = LQREnv(m.s)
+# Optional functions can be added like this:
+@provide CommonRLInterface.clone(m::LQREnv) = LQREnv(m.s)
 ```
 
 ### What does a simulation with a random policy look like?
