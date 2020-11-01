@@ -101,6 +101,11 @@ end
     @test provided(f, 2.0) == false
     @test provided(f, Tuple{Float64}) == false
 
+    @provide f(x::AbstractArray{N}) where {N<:Number} = x.^2
+
+    @test provided(f, Tuple{Vector{Float64}})
+    @test f([1,2]) == [1, 4]
+
     @test @inferred(h(2)) == f(2)::Int
 
     g() = nothing

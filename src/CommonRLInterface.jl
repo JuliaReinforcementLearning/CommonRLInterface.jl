@@ -170,8 +170,7 @@ end
 macro provide(f)
     def = splitdef(f) # TODO: probably give a better error message that mentions @provide if this fails
     @assert isempty(def[:kwargs]) "@provide does not support keyword args yet."
-    @assert isempty(def[:whereparams]) "@provide does not support `where` parameter syntax yet."
-
+    
     func = esc(def[:name])
 
     argtypes = []
@@ -184,7 +183,7 @@ macro provide(f)
     end
     
     quote
-        CommonRLInterface.provided(::typeof($func), ::Type{<:Tuple{$(argtypes...)}}) = true
+        CommonRLInterface.provided(::typeof($func), ::Type{<:Tuple{$(argtypes...)}}) where {$(map(esc, def[:whereparams])...)} = true
 
         $(esc(f))
     end

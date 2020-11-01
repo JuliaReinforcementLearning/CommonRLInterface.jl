@@ -11,10 +11,10 @@ MacroTools = "0.5"
 julia = "1"
 
 [extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
 Compose = "a81c6b42-2e10-5240-aca2-a61377ecd94b"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
 test = ["Test", "ColorSchemes", "Compose", "StaticArrays"]
