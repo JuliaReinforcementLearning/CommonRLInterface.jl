@@ -202,4 +202,6 @@ export
     valid_action_mask
 include("spaces.jl")
 
+include("wrappers.jl")
+
 end
