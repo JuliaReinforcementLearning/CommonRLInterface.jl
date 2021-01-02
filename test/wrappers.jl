@@ -1,5 +1,5 @@
 @testset "wrappers" begin
-    mutable struct WrapperTestEnv <: AbstractMarkovEnv
+    mutable struct WrapperTestEnv <: AbstractEnv
         state::Int
     end
     WrapperTestEnv() = WrapperTestEnv(1)
