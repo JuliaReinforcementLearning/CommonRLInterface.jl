@@ -31,4 +31,6 @@ end
 CommonRLInterface.provided(f::Function, w::AbstractWrapper, args...) = provided(f, wrapped_env(w), args...)
 CommonRLInterface.provided(::typeof(clone), w::AbstractWrapper, args...) = false
 
+include("quick_wrapper.jl")
+
 end
