@@ -11,10 +11,6 @@ This package is designed for two reasons:
 
 ## Required Interface
 
-To accomplish this, there are two abstract environment types:
-- `AbstractMarkovEnv`, which represents a (PO)MDP with a single player
-- `AbstractZeroSumEnv`, which represents a two-player zero sum game
-
 `AbstractEnv` is a base type for all environments.
 
 The interface has five required functions for all `AbstractEnv`s:
@@ -24,11 +20,6 @@ actions(env)    # returns the set of all possible actions for the environment
 observe(env)    # returns an observation
 act!(env, a)    # steps the environment forward and returns a reward
 terminated(env) # returns true or false indicating whether the environment has finished
-```
-
-For `AbstractZeroSumEnv`, there is an additional required function,
-```julia
-player(env)     # returns the index of the current player
 ```
 
 ## Optional Interface
@@ -41,6 +32,7 @@ There are several additional functions that are currently optional:
 - `valid_actions`
 - `valid_action_mask`
 - `observations`
+- `player`
 
 To see documentation for one of these functions, use [Julia's built-in help system](https://docs.julialang.org/en/v1/manual/documentation/index.html#Accessing-Documentation-1).
 

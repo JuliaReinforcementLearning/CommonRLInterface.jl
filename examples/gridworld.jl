@@ -8,7 +8,7 @@ import ColorSchemes
 
 const RL = CommonRLInterface
 
-mutable struct GridWorld <: AbstractMarkovEnv
+mutable struct GridWorld <: AbstractEnv
     size::SVector{2, Int}
     rewards::Dict{SVector{2, Int}, Float64}
     state::SVector{2, Int}
