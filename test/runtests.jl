@@ -33,8 +33,8 @@ end
     @show rsum
 end
 
-# a reference MarkovEnv
-mutable struct MyEnv <: AbstractMarkovEnv
+# a reference MDP Env
+mutable struct MyEnv <: AbstractEnv
     state::Int
 end
 MyEnv() = MyEnv(1)
@@ -50,8 +50,8 @@ function CommonRLInterface.act!(env::MyEnv, a)
 end
 env = MyEnv(1)
 
-# a reference ZeroSumEnv
-mutable struct MyGame <: AbstractZeroSumEnv
+# a reference Game Env
+mutable struct MyGame <: AbstractEnv
     state::Int
 end
 MyGame() = MyGame(1)
@@ -65,7 +65,7 @@ function CommonRLInterface.act!(env::MyGame, a)
     env.state = clamp(env.state + a, 1, 10)
     return -o^2
 end
-CommonRLInterface.player(env::MyGame) = 1 + iseven(env.state)
+@provide CommonRLInterface.player(env::MyGame) = 1 + iseven(env.state)
 game = MyGame()
 
 function f end

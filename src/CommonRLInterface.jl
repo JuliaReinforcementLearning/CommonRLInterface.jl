@@ -4,8 +4,6 @@ using MacroTools
 
 export
     AbstractEnv,
-    AbstractMarkovEnv,
-    AbstractZeroSumEnv,
     reset!,
     actions,
     observe,
@@ -14,35 +12,6 @@ export
     terminated
 
 abstract type AbstractEnv end
-
-"""
-An environment that represents an MDP or a POMPD. There is only one player in this environment.
-
-The required interface consists of
-```
-reset!(env)
-actions(env)
-observe(env)
-act!(env, a)
-terminated(env)
-```
-"""
-abstract type AbstractMarkovEnv <: AbstractEnv end
-
-"""
-An environment that represents a zero-sum two player game, where only one player plays at a time. Player 1 seeks to maximize the reward; player 2 seeks to minimize it.
-
-The required interface consists of
-```
-reset!(env)
-actions(env)
-player(env)
-observe(env)
-act!(env, a)
-terminated(env)
-```
-"""
-abstract type AbstractZeroSumEnv <: AbstractEnv end
 
 """
     reset!(env::AbstractEnv)
@@ -64,7 +33,7 @@ This function is a *static property* of the environment; the value it returns sh
 
 ---
 
-    actions(env::AbstractZeroSumEnv, i::Integer)
+    actions(env::AbstractEnv, i::Integer)
 
 Return a collection of all the actions available to player i.
 
@@ -75,33 +44,25 @@ function actions end
 """
     observe(env::AbstractEnv)
 
-Return an observation from the environment.
+Return an observation from the environment for the current player.
 
 This is a *required function* that must be provided by every AbstractEnv.
-
----
-
-    observe(env::AbstractZeroSumEnv)
-
-Return an observation from the environment for the current player.
 """
 function observe end
 
 """
     r = act!(env::AbstractEnv, a)
 
-Take action `a` and advance AbstractEnv `env` forward one step.
+Take action `a` for the current player, advance AbstractEnv `env` forward one step, and return rewards for all players.
 
-This is a *required function* that must be provided by every AbstractEnv and should return a reward, Boolean done signal, and any extra information for debugging or human understanding (typically in a NamedTuple).
+This is a *required function* that must be provided by every AbstractEnv.
 """
 function act! end
 
 """
-    player(env::AbstractZeroSumEnv) 
+    player(env::AbstractEnv) 
 
 Return the index of the player who should play next in the environment.
-
-This is a *required function* for all `AbstractZeroSumEnvs`.
 """
 function player end
 
@@ -144,7 +105,6 @@ provided(::typeof(reset!), ::Type{<:Tuple{AbstractEnv}}) = true
 provided(::typeof(actions), ::Type{<:Tuple{AbstractEnv}}) = true
 provided(::typeof(observe), ::Type{<:Tuple{AbstractEnv}}) = true
 provided(::typeof(act!), ::Type{<:Tuple{AbstractEnv, Any}}) = true
-provided(::typeof(player), ::Type{<:Tuple{AbstractZeroSumEnv}}) = true
 
 """
     @provide f(x::X) = x^2
@@ -157,15 +117,16 @@ This will automatically implement the appropriate methods of `provided`. Both th
 ```jldoctest
 using CommonRLInterface
 
-struct MyEnv <: AbstractEnv end
-
-@assert provided(clone, MyEnv()) == false
-
-@provide function CommonRLInterface.clone(env::MyEnv)
-    return deepcopy(env)
+struct MyEnv <: AbstractEnv
+    s::Int
 end
 
-@assert provided(clone, MyEnv()) == true
+@assert provided(clone, MyEnv(1)) == false
+
+@provide CommonRLInterface.clone(env::MyEnv) = MyEnv(env.s)
+
+@assert provided(clone, MyEnv(1)) == true
+@assert clone(MyEnv(1)) == MyEnv(1)
 """
 macro provide(f)
     def = splitdef(f) # TODO: probably give a better error message that mentions @provide if this fails
