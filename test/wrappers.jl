@@ -36,4 +36,38 @@
 
     @test provided(render, w)
     @test render(w) == "Wrapper of WrapperTestEnv(1)"
+
+    @testset "QuickWrapper" begin
+        using CommonRLInterface.Wrappers: QuickWrapper
+
+        env = WrapperTestEnv()
+        w = QuickWrapper(env)
+        @test provided(reset!, w)
+        @test provided(render, w)
+        @test render(w) == render(env)
+        @test !provided(observations, w)
+        @test !provided(valid_actions, w)
+        @test !provided(clone, w)
+
+        # static object keyword arg
+        w2 = QuickWrapper(env;
+                          valid_actions = env->filter(!=(0), actions(env)),
+                          observations = 1:10,
+                          clone = deepcopy
+                         )
+
+        @test provided(observations, w2)
+        @test observations(w2) == 1:10
+        @test provided(valid_actions, w2)
+        @test valid_actions(w2) == filter(!=(0), actions(env))
+        @test provided(clone, w2)
+        @test clone(w2) isa QuickWrapper
+        @test state(clone(w2)) == state(env)
+
+        w3 = QuickWrapper(env)
+        @provide CommonRLInterface.clone(env::WrapperTestEnv) = WrapperTestEnv(env.state)
+        @test provided(clone, w3)
+        @test clone(w2) isa QuickWrapper
+        @test state(clone(w3)) == state(env)
+    end
 end

@@ -2,7 +2,9 @@ module Wrappers
 
 using CommonRLInterface
 
-export AbstractWrapper
+export
+    AbstractWrapper,
+    QuickWrapper
 
 abstract type AbstractWrapper end
 
