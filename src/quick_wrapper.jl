@@ -3,6 +3,28 @@ struct QuickWrapper{E<:AbstractEnv, D<:NamedTuple} <: AbstractWrapper
     data::D
 end
 
+"""
+    QuickWrapper(env; kwargs...)
+
+Create a wrapper to override specific behavior of the environment with keywords.
+
+Each keyword argument corresponds to a CommonRLInterface function to be overridden. The keyword arguments can either be static objects or functions. If a keyword argument is a function, the arguments will be the wrapped environment and any other arguments. `provided` is automatically handled.
+
+# Examples
+
+Override the action space statically:
+```julia
+w = QuickWrapper(env; actions=[-1, 1])
+observe(w) # returns the observation from env
+actions(w) # returns [-1, 1]
+```
+
+Override the `act!` function to return the reward squared:
+```julia
+w = QuickWrapper(env; act! = (env, a) -> act!(env, a).^2)
+act!(w, a) # returns the squared reward for taking action a in env
+```
+"""
 QuickWrapper(e; kwargs...) = QuickWrapper(e, values(kwargs))
 
 wrapped_env(w::QuickWrapper) = w.env

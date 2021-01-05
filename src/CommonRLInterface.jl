@@ -121,12 +121,19 @@ struct MyEnv <: AbstractEnv
     s::Int
 end
 
-@assert provided(clone, MyEnv(1)) == false
+# Initially, clone is not provided
+@assert !provided(clone, MyEnv(1))
 
 @provide CommonRLInterface.clone(env::MyEnv) = MyEnv(env.s)
 
-@assert provided(clone, MyEnv(1)) == true
-@assert clone(MyEnv(1)) == MyEnv(1)
+@assert provided(clone, MyEnv(1))
+
+clone(MyEnv(1))
+
+# output
+
+MyEnv(1)
+
 ```
 """
 macro provide(f)
@@ -164,6 +171,8 @@ export
     valid_action_mask
 include("spaces.jl")
 
+export
+    Wrappers
 include("wrappers.jl")
 
 end

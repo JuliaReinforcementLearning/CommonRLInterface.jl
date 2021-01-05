@@ -6,8 +6,37 @@ export
     AbstractWrapper,
     QuickWrapper
 
+"""
+    AbstractWrapper
+
+Abstract base class for environment wrappers. For a subtype of `AbstractWrapper`, all CommonRLInterface functions will be forwarded to the wrapped environment defined by `wrapped_env`.
+
+Interface functions can be selectively overridden for the new wrapper type. `provided` and optional functions will be handled correctly by default.
+
+# Example
+
+```julia
+struct MyActionWrapper{E} <: AbstractWrapper
+    env::E
+end
+    
+# Any subclass of AbstractWrapper MUST implement wrapped_env
+CommonRLInterface.wrapped_env(w::MyActionWrapper) = w.env
+
+# Now all CommonRLFunctions functions are forwarded
+w = MyActionWrapper(env)
+observe(w) # will return an observation from env
+actions(w) # will return the action space from env
+
+# The actions function for the wrapper can be overridden
+CommonRLInterface.actions(w::MyActionWrapper) = [-1, 1]
+actions(w) # will now return [-1, 1]
+"""
 abstract type AbstractWrapper end
 
+"""
+Indicate what the wrapped environment is for an AbstractWrapper (see the AbstractWrapper docstring)
+"""
 function wrapped_env end
 
 macro forward_to_wrapped(f)
