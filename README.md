@@ -16,9 +16,7 @@ By design, this package is only concerned with environments and *not* with polic
 
 ## Documentation
 
-Detailed documentation can be found here: [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaReinforcementLearning.github.io/CommonRLInterface.jl/stable)
-
-A brief overview is given below:
+Detailed documentation can be found here: [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaReinforcementLearning.github.io/CommonRLInterface.jl/stable). A brief overview is given below:
 
 ### Required Interface
 
