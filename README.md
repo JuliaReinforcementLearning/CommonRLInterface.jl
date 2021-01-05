@@ -2,9 +2,9 @@
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaReinforcementLearning.github.io/CommonRLInterface.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaReinforcementLearning.github.io/CommonRLInterface.jl/dev)
-<!--[![Build Status](https://travis-ci.com/JuliaReinforcementLearning/CommonRLInterface.jl.svg?branch=master)](https://travis-ci.com/JuliaReinforcementLearning/CommonRLInterface.jl)-->
-[![Build status](https://github.com/JuliaSpace/SatelliteToolbox.jl/workflows/CI/badge.svg)](https://github.com/JuliaSpace/SatelliteToolbox.jl/actions)
+[![Build status](https://github.com/JuliaReinforcementLearning/CommonRLInterface.jl/workflows/CI/badge.svg)](https://github.com/JuliaReinforcementLearning/CommonRLInterface.jl/actions)
 [![Coverage](https://codecov.io/gh/JuliaReinforcementLearning/CommonRLInterface.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaReinforcementLearning/CommonRLInterface.jl)
+<!--[![Build Status](https://travis-ci.com/JuliaReinforcementLearning/CommonRLInterface.jl.svg?branch=master)](https://travis-ci.com/JuliaReinforcementLearning/CommonRLInterface.jl)-->
 
 ## Purpose
 
