@@ -127,6 +127,7 @@ end
 
 @assert provided(clone, MyEnv(1)) == true
 @assert clone(MyEnv(1)) == MyEnv(1)
+```
 """
 macro provide(f)
     def = splitdef(f) # TODO: probably give a better error message that mentions @provide if this fails

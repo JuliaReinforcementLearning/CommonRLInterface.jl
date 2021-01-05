@@ -4,11 +4,11 @@ notifications:
   email: false
 julia:
   - 1
-  - 1.0
+  # - 1.0
 os:
   - linux
-  - osx
-  - windows
+  # - osx
+  # - windows
 arch:
   - x64
 cache:
