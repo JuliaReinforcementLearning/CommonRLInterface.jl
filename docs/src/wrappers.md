@@ -1,6 +1,6 @@
 # Environment Wrappers
 
-Wrappers provide a convenient way to alter the behavior of an environment. [`Wrappers.QuickWrapper`](@ref) provides the simplest way to override the behavior of a CommonRLInterface function. For example,
+Wrappers provide a convenient way to alter the behavior of an environment. [`Wrappers.QuickWrapper`](@ref) provides the simplest way to override the behavior of one or more CommonRLInterface functions. For example,
 ```julia
 QuickWrapper(env, actions=[-1, 1])
 ```
