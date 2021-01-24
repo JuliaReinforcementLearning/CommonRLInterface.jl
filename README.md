@@ -16,7 +16,7 @@ By design, this package is only concerned with environments and *not* with polic
 
 ## Documentation
 
-Detailed documentation can be found here: [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaReinforcementLearning.github.io/CommonRLInterface.jl/stable). A brief overview is given below:
+A few simple examples can be found in the examples directory. Detailed documentation can be found here: [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaReinforcementLearning.github.io/CommonRLInterface.jl/stable). A brief overview is given below:
 
 ### Required Interface
 
@@ -34,6 +34,10 @@ terminated(env) # returns true or false indicating whether the environment has f
 ### Optional Interface
 
 Additional behavior for an environment can be specified with the optional interface outlined in the documentation. The `provided` function can be used to check whether optional behavior is provided by the environment.
+
+### Multiplayer Environments
+
+Optional functions allow implementation of both sequential and simultaneous games and multi-agent (PO)MDPs
 
 ### Wrappers
 

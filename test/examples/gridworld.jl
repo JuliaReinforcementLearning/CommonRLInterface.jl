@@ -3,7 +3,6 @@ module GW
 end
 
 @testset "gridworld" begin
-
     env = GW.GridWorld()
     reset!(env)
     while !terminated(env)

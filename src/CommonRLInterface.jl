@@ -56,7 +56,7 @@ Take action `a` and advance AbstractEnv `env` forward one step, and return rewar
 
 This is a *required function* that must be provided by every AbstractEnv.
 
-If the environment has a single player, it is acceptable to return a scalar number. If there are multiple players, it should return a container indexed with the items in the collection returned by `players`.
+If the environment has a single player, it is acceptable to return a scalar number. If there are multiple players, it should return a container with all rewards indexed by player number.
 
 # Example
 
@@ -72,9 +72,9 @@ end
 
 ```julia
 function act!(env::MyMDPEnv, a)
-    env.positions[player(env)] += a # In this game, each player has a position that is updated by his or her action
+    env.positions[player(env)] += a   # In this game, each player has a position that is updated by his or her action
     rewards = in_goal.(env.positions) # Rewards are +1 for being in a goal region, 0 otherwise
-    return rewards # returns a vector of rewards for each player
+    return rewards                    # returns a vector of rewards for each player
 end
 ```
 """
