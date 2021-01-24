@@ -8,7 +8,6 @@ export
     actions,
     observe,
     act!,
-    player,
     terminated
 
 abstract type AbstractEnv end
@@ -57,7 +56,7 @@ Take action `a` and advance AbstractEnv `env` forward one step, and return rewar
 
 This is a *required function* that must be provided by every AbstractEnv.
 
-If the environment has a single player, it is acceptable to return a scalar number. If there are multiple players, it should return a container with indexed with the items in the collection returned by `player_indices`.
+If the environment has a single player, it is acceptable to return a scalar number. If there are multiple players, it should return a container indexed with the items in the collection returned by `players`.
 
 # Example
 
@@ -185,6 +184,18 @@ export
     valid_actions,
     valid_action_mask
 include("spaces.jl")
+
+export
+    players,
+    player,
+    all_act!,
+    all_observe,
+    UtilityStyle,
+    ZeroSum,
+    ConstantSum,
+    GeneralSum,
+    IdenticalUtility
+include("multiplayer.jl")
 
 export
     Wrappers

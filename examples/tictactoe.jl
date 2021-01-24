@@ -34,16 +34,16 @@ function RL.act!(env::TicTacToe, a)
     return rewards
 end
 
-@provide RL.player_indices(env::TicTacToe) = 1:2
+@provide RL.players(env::TicTacToe) = 1:2
 @provide function RL.player(env::TicTacToe)
-    if sum(env.board == 3)
-        
+    if sum(env.board%3==0)
+        return 1
     else
-
+        return 2
     end
 end
 
-RL.render(env::TicTacToe) = env
+@provide RL.render(env::TicTacToe) = env
 
 function Base.show(::IO, ::MIME"text/plain", env::TicTacToe)
     chars = [' ', 'x', 'o']

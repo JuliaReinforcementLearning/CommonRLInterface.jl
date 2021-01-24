@@ -1,17 +1,17 @@
 """
-    player_indices(env::AbstractEnv)
+    players(env::AbstractEnv)
 
-Return an iterable collection of integer indices for all players.
+Return an ordered iterable collection of integer indices for all players, starting with one.
 
 This function is a *static property* of the environment; the value it returns should not change based on the state.
 
 # Example
 
 ```julia
-@provide player_indices(::MyEnv) = 1:2
+@provide players(::MyEnv) = 1:2
 ```
 """
-function player_indices end
+function players end
 
 """
     player(env::AbstractEnv) 
