@@ -162,8 +162,8 @@ end
     @test observations(env) == 1:10
 end
 
-if VERSION >= v"1.4" # not sure if this is the actual minimal version, but I know it will work
-    include("examples/gridworld.jl")
-end
+include("examples/gridworld.jl")
+include("examples/tictactoe.jl")
+include("examples/rock_paper_scissors.jl")
 
 include("wrappers.jl")

@@ -14,6 +14,7 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "required.md",
+        "multiplayer.md",
         "optional.md",
         "wrappers.md",
         "faqs.md"

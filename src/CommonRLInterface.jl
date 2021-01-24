@@ -8,7 +8,6 @@ export
     actions,
     observe,
     act!,
-    player,
     terminated
 
 abstract type AbstractEnv end
@@ -33,9 +32,9 @@ This function is a *static property* of the environment; the value it returns sh
 
 ---
 
-    actions(env::AbstractEnv, i::Integer)
+    actions(env::AbstractEnv, player_index)
 
-Return a collection of all the actions available to player i.
+Return a collection of all the actions available to a given player.
 
 This function is a *static property* of the environment; the value it returns should not change based on the state.
 """
@@ -53,18 +52,33 @@ function observe end
 """
     r = act!(env::AbstractEnv, a)
 
-Take action `a` for the current player, advance AbstractEnv `env` forward one step, and return rewards for all players.
+Take action `a` and advance AbstractEnv `env` forward one step, and return rewards for all players.
 
 This is a *required function* that must be provided by every AbstractEnv.
+
+If the environment has a single player, it is acceptable to return a scalar number. If there are multiple players, it should return a container with all rewards indexed by player number.
+
+# Example
+
+## Single Player
+```julia
+function act!(env::MyMDPEnv, a)
+    env.state += a + randn()
+    return env.s^2
+end
+```
+
+## Two Player
+
+```julia
+function act!(env::MyMDPEnv, a)
+    env.positions[player(env)] += a   # In this game, each player has a position that is updated by his or her action
+    rewards = in_goal.(env.positions) # Rewards are +1 for being in a goal region, 0 otherwise
+    return rewards                    # returns a vector of rewards for each player
+end
+```
 """
 function act! end
-
-"""
-    player(env::AbstractEnv) 
-
-Return the index of the player who should play next in the environment.
-"""
-function player end
 
 """
     terminated(env::AbstractEnv)
@@ -170,6 +184,18 @@ export
     valid_actions,
     valid_action_mask
 include("spaces.jl")
+
+export
+    players,
+    player,
+    all_act!,
+    all_observe,
+    UtilityStyle,
+    ZeroSum,
+    ConstantSum,
+    GeneralSum,
+    IdenticalUtility
+include("multiplayer.jl")
 
 export
     Wrappers

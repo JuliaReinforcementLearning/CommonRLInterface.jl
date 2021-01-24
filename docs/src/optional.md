@@ -27,7 +27,8 @@ The optional interface currently contains the following functions:
 - [`valid_actions`](@ref)
 - [`valid_action_mask`](@ref)
 - [`observations`](@ref)
-- [`player`](@ref)
+
+Additional optional functions for multiplayer environments are contained in the [Multiplayer Interface](@ref)
 
 To propose adding a new function to the interface, please file an issue with the "candidate interface function" label.
 
@@ -43,5 +44,4 @@ setstate!
 valid_actions
 valid_action_mask
 observations
-player
 ```
