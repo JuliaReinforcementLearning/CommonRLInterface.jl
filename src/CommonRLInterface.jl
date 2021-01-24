@@ -1,5 +1,7 @@
 module CommonRLInterface
 
+using MacroTools
+
 export
     AbstractEnv,
     reset!,

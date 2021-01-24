@@ -21,8 +21,8 @@ If this returns true, it means that the function is provided for any set of argu
 """
 function provided end
 
-provided(f::Function, args...) = provided(f, typeof(args))
-provided(f::Function, ::Type{<:Tuple}) = false
+provided(f, args...) = provided(f, typeof(args))
+provided(f, ::Type{<:Tuple}) = false
 
 provided(::typeof(reset!), ::Type{<:Tuple{AbstractEnv}}) = true
 provided(::typeof(actions), ::Type{<:Tuple{AbstractEnv}}) = true
@@ -67,7 +67,7 @@ macro provide(f)
 
     argtypes = []
     for arg in def[:args]
-        if @capture(arg, name_::T_)
+        if @capture(arg, name_::T_ | ::T_)
             push!(argtypes, esc(T))
         else
             push!(argtypes, :Any)
@@ -75,7 +75,7 @@ macro provide(f)
     end
     
     quote
-        CommonRLInterface.Optional.provided(::typeof($func), ::Type{<:Tuple{$(argtypes...)}}) where {$(map(esc, def[:whereparams])...)} = true
+        CommonRLInterface.provided(::typeof($func), ::Type{<:Tuple{$(argtypes...)}}) where {$(map(esc, def[:whereparams])...)} = true
 
         $(esc(f))
     end
