@@ -49,3 +49,4 @@ These packages are compatible with CommonRLInterface:
 
 - [ReinforcementLearning.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl)
 - [POMDPs.jl](https://github.com/JuliaPOMDP/POMDPs.jl)
+- [AlphaZero.jl](https://github.com/jonathan-laurent/AlphaZero.jl)
