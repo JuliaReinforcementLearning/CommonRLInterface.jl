@@ -17,7 +17,7 @@ iswinner(b, p) = any(all(b[i,:].==p) for i in 1:3) ||
 other(p) = mod1(p+1,2)
 
 RL.reset!(env::TicTacToe) = fill!(env.board, 0)
-RL.actions(env::TicTacToe, player=0) = vec([(i, j) for i in 1:3, j in 1:3])
+RL.actions(env::TicTacToe) = vec([(i, j) for i in 1:3, j in 1:3])
 # symmetrical observations for both players: +1 for your square, -1 for other square
 RL.observe(env::TicTacToe) = zeros(Int, 3, 3) + (env.board.==player(env)) - (env.board.==other(player(env)))
 RL.terminated(env::TicTacToe) = any(iswinner(env.board, p) for p in 1:2) || all(env.board .!= 0)

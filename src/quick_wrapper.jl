@@ -72,13 +72,18 @@ _call(other, args...) = other
 @quick_forward CommonRLInterface.valid_actions
 @quick_forward CommonRLInterface.valid_action_mask
 @quick_forward CommonRLInterface.observations
+
+@quick_forward CommonRLInterface.players
 @quick_forward CommonRLInterface.player
+@quick_forward CommonRLInterface.all_act!
+@quick_forward CommonRLInterface.all_observe
+@quick_forward CommonRLInterface.UtilityStyle
 
 function CommonRLInterface.clone(w::QuickWrapper, args...)
     if haskey(w.data, :clone)
         QuickWrapper(_call(w.data[:clone], w.env), w.data)
     else
-        QuickWrapper(clone(w.env), w.data)
+        QuickWrapper(clone(w.env), deepcopy(w.data))
     end
 end
 

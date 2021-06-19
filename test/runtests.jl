@@ -166,4 +166,6 @@ include("examples/gridworld.jl")
 include("examples/tictactoe.jl")
 include("examples/rock_paper_scissors.jl")
 
+include("default.jl")
+
 include("wrappers.jl")
