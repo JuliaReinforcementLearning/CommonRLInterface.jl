@@ -38,12 +38,12 @@ function RL.act!(env::GridWorld, a)
 end
 
 # optional functions
-@provide RL.observations(env::GridWorld) = [SA[x, y] for x in 1:env.size[1], y in 1:env.size[2]]
-@provide RL.clone(env::GridWorld) = GridWorld(env.size, copy(env.rewards), env.state)
-@provide RL.state(env::GridWorld) = env.state
-@provide RL.setstate!(env::GridWorld, s) = (env.state = s)
+RL.observations(env::GridWorld) = [SA[x, y] for x in 1:env.size[1], y in 1:env.size[2]]
+RL.clone(env::GridWorld) = GridWorld(env.size, copy(env.rewards), env.state)
+RL.state(env::GridWorld) = env.state
+RL.setstate!(env::GridWorld, s) = (env.state = s)
 
-@provide function RL.render(env::GridWorld)
+function RL.render(env::GridWorld)
     nx, ny = env.size
     cells = []
     for s in observations(env)

@@ -45,8 +45,8 @@ function RL.act!(env::TicTacToe, a)
     return (0, 0)
 end
 
-@provide RL.players(env::TicTacToe) = 1:2
-@provide function RL.player(env::TicTacToe)
+RL.players(env::TicTacToe) = 1:2
+function RL.player(env::TicTacToe)
     if sum(env.board)%3 == 0
         return 1
     else
@@ -54,7 +54,7 @@ end
     end
 end
 
-@provide RL.render(env::TicTacToe) = env
+RL.render(env::TicTacToe) = env
 
 function Base.show(io::IO, ::MIME"text/plain", env::TicTacToe)
     chars = [' ', 'x', 'o']
@@ -66,4 +66,4 @@ function Base.show(io::IO, ::MIME"text/plain", env::TicTacToe)
     end
 end
 
-@provide RL.UtilityStyle(::TicTacToe) = ZeroSum()
+RL.UtilityStyle(::TicTacToe) = ZeroSum()
