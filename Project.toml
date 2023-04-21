@@ -7,6 +7,7 @@ version = "0.3.1"
 Tricks = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
 
 [compat]
+Tricks = "0.1.7"
 julia = "1"
 
 [extras]
