@@ -8,7 +8,7 @@ This function is a *static property* of the environment; the value it returns sh
 # Example
 
 ```julia
-@provide players(::MyEnv) = 1:2
+players(::MyEnv) = 1:2
 ```
 """
 function players end

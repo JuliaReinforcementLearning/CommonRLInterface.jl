@@ -23,7 +23,7 @@ function CommonRLInterface.act!(m::LQREnv, a)
 end
 
 # Optional functions can be added like this:
-@provide CommonRLInterface.clone(m::LQREnv) = LQREnv(m.s)
+CommonRLInterface.clone(m::LQREnv) = LQREnv(m.s)
 ```
 
 ## What does a simulation with a random policy look like?

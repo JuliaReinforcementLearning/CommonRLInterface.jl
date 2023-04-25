@@ -13,7 +13,7 @@
         env.state = clamp(env.state + a, 1, 10)
         return -o^2
     end
-    @provide CommonRLInterface.render(env::WrapperTestEnv) = "WrapperTestEnv($(env.state))"
+    CommonRLInterface.render(env::WrapperTestEnv) = "WrapperTestEnv($(env.state))"
 
     using CommonRLInterface.Wrappers: Wrappers, AbstractWrapper
 
@@ -23,14 +23,14 @@
 
     Wrappers.wrapped_env(w::MyWrapper) = w.env
 
-    @provide CommonRLInterface.render(w::MyWrapper) = "Wrapper of $(w.env)"
+    CommonRLInterface.render(w::MyWrapper) = "Wrapper of $(w.env)"
 
     w = MyWrapper(WrapperTestEnv(1))
     @test provided(reset!, w)
     @test !provided(clone, w)
 
     @test !provided(state, w)
-    @provide CommonRLInterface.state(env::WrapperTestEnv) = env.state
+    CommonRLInterface.state(env::WrapperTestEnv) = env.state
     @test provided(state, w)
     @test state(w) == 1
 
@@ -65,7 +65,7 @@
         @test state(clone(w2)) == state(env)
 
         w3 = QuickWrapper(env)
-        @provide CommonRLInterface.clone(env::WrapperTestEnv) = WrapperTestEnv(env.state)
+        CommonRLInterface.clone(env::WrapperTestEnv) = WrapperTestEnv(env.state)
         @test provided(clone, w3)
         @test clone(w2) isa QuickWrapper
         @test state(clone(w3)) == state(env)
