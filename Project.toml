@@ -1,7 +1,7 @@
 name = "CommonRLInterface"
 uuid = "d842c3ba-07a1-494f-bbec-f5741b0a3e98"
 authors = ["Zachary Sunberg <sunbergzach@gmail.com> and contributors"]
-version = "0.3.1"
+version = "0.3.2"
 
 [deps]
 Tricks = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
