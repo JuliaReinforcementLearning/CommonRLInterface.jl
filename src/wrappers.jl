@@ -31,6 +31,7 @@ actions(w) # will return the action space from env
 # The actions function for the wrapper can be overridden
 CommonRLInterface.actions(w::MyActionWrapper) = [-1, 1]
 actions(w) # will now return [-1, 1]
+```
 """
 abstract type AbstractWrapper end
 
