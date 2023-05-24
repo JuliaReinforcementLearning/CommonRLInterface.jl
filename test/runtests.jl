@@ -65,7 +65,7 @@ function CommonRLInterface.act!(env::MyGame, a)
     env.state = clamp(env.state + a, 1, 10)
     return -o^2
 end
-@provide CommonRLInterface.player(env::MyGame) = 1 + iseven(env.state)
+CommonRLInterface.player(env::MyGame) = 1 + iseven(env.state)
 game = MyGame()
 
 function f end
@@ -85,13 +85,13 @@ end
     @test_throws MethodError f(2)
     @test provided(f, 2) == false
 
-    @provide f(x::Int) = x^2
+    f(x::Int) = x^2
 
     @test provided(f, 2) == true
     @test provided(f, Tuple{Int}) == true
     @test f(2) == 4
 
-    @provide function f(s::String)
+    function f(s::String)
         s*"^2"
     end
     @test provided(f, "2") == true
@@ -101,7 +101,7 @@ end
     @test provided(f, 2.0) == false
     @test provided(f, Tuple{Float64}) == false
 
-    @provide f(x::AbstractArray{N}) where {N<:Number} = x.^2
+    f(x::AbstractArray{N}) where {N<:Number} = x.^2
 
     @test provided(f, Tuple{Vector{Float64}})
     @test f([1,2]) == [1, 4]
@@ -110,7 +110,7 @@ end
 
     g() = nothing
 
-    @provide g(a, b::AbstractVector{<:Number}) = a.*b
+    g(a, b::AbstractVector{<:Number}) = a.*b
 
     @test provided(g, 1, [1.0]) == true
     @test provided(g, typeof((1, [1.0]))) == true
@@ -128,16 +128,16 @@ end
 @testset "environment" begin
     Base.:(==)(a::MyEnv, b::MyEnv) = a.state == b.state
     Base.hash(x::MyEnv, h=zero(UInt)) = hash(x.state, h)
-    @provide CommonRLInterface.clone(env::MyEnv) = MyEnv(env.state)
+    CommonRLInterface.clone(env::MyEnv) = MyEnv(env.state)
     @test provided(clone, env)
     @test clone(env) == MyEnv(1)
 
-    @provide CommonRLInterface.render(env::MyEnv) = "MyEnv with state $(env.state)"
+    CommonRLInterface.render(env::MyEnv) = "MyEnv with state $(env.state)"
     @test provided(render, MyEnv(1))
     @test render(MyEnv(1)) == "MyEnv with state 1"
 
-    @provide CommonRLInterface.state(env::MyEnv) = env.state
-    @provide function CommonRLInterface.setstate!(env::MyEnv, s) env.state = s end
+    CommonRLInterface.state(env::MyEnv) = env.state
+    function CommonRLInterface.setstate!(env::MyEnv, s) env.state = s end
     @test provided(state, MyEnv(1))
     @test state(MyEnv(1)) == 1
     env1 = MyEnv(0)
@@ -146,18 +146,18 @@ end
 end
 
 @testset "spaces" begin
-    @provide CommonRLInterface.valid_actions(env::MyEnv) = [0, 1]
+    CommonRLInterface.valid_actions(env::MyEnv) = [0, 1]
     @test provided(valid_actions, env)
     @test issubset(valid_actions(env), actions(env))
 
-    @provide CommonRLInterface.valid_action_mask(env::MyEnv) = [false, true, true]
+    CommonRLInterface.valid_action_mask(env::MyEnv) = [false, true, true]
     @test provided(valid_action_mask, env)
     va = valid_actions(env)
     vam = actions(env)[valid_action_mask(env)]
     @test issubset(va, vam)
     @test issubset(vam, va)
 
-    @provide CommonRLInterface.observations(env::MyEnv) = 1:10
+    CommonRLInterface.observations(env::MyEnv) = 1:10
     @test provided(observations, env)
     @test observations(env) == 1:10
 end
@@ -169,3 +169,4 @@ include("examples/rock_paper_scissors.jl")
 include("default.jl")
 
 include("wrappers.jl")
+include("deprecated.jl")

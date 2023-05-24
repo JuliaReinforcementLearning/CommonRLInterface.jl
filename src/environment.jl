@@ -23,7 +23,7 @@ struct MyEnv <: AbstractEnv
     state::Tuple{Int, Int}
 end
 
-@provide CommonRLInterface.render(env::MyEnv) = scatter(env.state[1], env.state[2])
+CommonRLInterface.render(env::MyEnv) = scatter(env.state[1], env.state[2])
 ```
 """
 function render end

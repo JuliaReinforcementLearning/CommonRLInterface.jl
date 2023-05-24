@@ -1,6 +1,6 @@
 module CommonRLInterface
 
-using MacroTools
+import Tricks
 
 export
     AbstractEnv,
@@ -89,12 +89,61 @@ If `terminated(env)` is true, no further actions should be taken and it is safe 
 """
 function terminated end
 
-include("optional.jl")
+export provided
 
-export AutomaticDefault
-include("automatic_default.jl")
+"""
+    provided(f, args...)
 
-export Wrappers
+Test whether an implementation for `f(args...)` has been provided.
+
+If this returns false, you should assume that the environment does not support the function `f`.
+
+Usage is identical to `Base.applicable`. The default implementation should be correct for most cases. It should only be implemented by the user in exceptional cases where very fine control is needed.
+
+---
+
+    provided(f, types::Type{<:Tuple})
+
+Alternate version of `provided` with syntax similar to `Base.hasmethod`.
+
+If this returns true, it means that the function is provided for any set of arguments with the given types. If it returns false, it may be provided for certain objects. For this reason, algorithm writers should call the `provided(f, args...)` version when possible.
+"""
+function provided end
+
+provided(f::Function, args...) = provided(f, typeof(args))
+provided(f::Function, T::Type{<:Tuple}) = Tricks.static_hasmethod(f, T)
+
+export
+    clone,
+    render,
+    state,
+    setstate!
+include("environment.jl")
+
+export
+    observations,
+    valid_actions,
+    valid_action_mask
+include("spaces.jl")
+
+export
+    players,
+    player,
+    all_act!,
+    all_observe,
+    UtilityStyle,
+    ZeroSum,
+    ConstantSum,
+    GeneralSum,
+    IdenticalUtility
+include("multiplayer.jl")
+
+export
+    Wrappers
 include("wrappers.jl")
+
+export
+    @provide
+include("deprecated.jl")
 
 end

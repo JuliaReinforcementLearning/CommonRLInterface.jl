@@ -12,7 +12,7 @@ beats(a, b) = (a==:rock && b==:scissors) || (a==:scissors && b==:paper) || (a==:
 
 # Really all_act!, actions, terminated, players, and reset! are all that's needed to describe the game
 
-@provide function RL.all_act!(env::RockPaperScissors, as)
+function RL.all_act!(env::RockPaperScissors, as)
     env.status = :done
     if beats(as[1], as[2]) 
         return (1, -1)
@@ -26,7 +26,7 @@ end
 RL.actions(env::RockPaperScissors) = (:rock, :paper, :scissors)
 RL.terminated(env::RockPaperScissors) = env.status == :done
 RL.reset!(env::RockPaperScissors) = env.status = :start
-@provide RL.players(env::RockPaperScissors) = 1:2
+RL.players(env::RockPaperScissors) = 1:2
 
 # We may also wish to implement the rest of the required interface
 
@@ -41,5 +41,5 @@ function RL.act!(env::RockPaperScissors, a)
     end
 end
 
-@provide RL.player(env::RockPaperScissors) = env.status == :start ? 1 : 2
-@provide RL.UtilityStyle(env::RockPaperScissors) = ZeroSum()
+RL.player(env::RockPaperScissors) = env.status == :start ? 1 : 2
+RL.UtilityStyle(env::RockPaperScissors) = ZeroSum()
