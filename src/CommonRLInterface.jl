@@ -110,8 +110,8 @@ If this returns true, it means that the function is provided for any set of argu
 """
 function provided end
 
-provided(f::Function, args...) = provided(f, typeof(args))
-provided(f::Function, T::Type{<:Tuple}) = Tricks.static_hasmethod(f, T)
+provided(f::Union{Function, DataType}, args...) = provided(f, typeof(args))
+provided(f::Union{Function, DataType}, T::Type{<:Tuple}) = Tricks.static_hasmethod(f, T)
 
 export
     clone,
