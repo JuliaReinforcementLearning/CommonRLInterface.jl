@@ -11,4 +11,6 @@ It is also possible to easily create custom wrapper types by subtyping [`Wrapper
 ```@docs
 Wrappers.QuickWrapper
 Wrappers.AbstractWrapper
+Wrappers.wrapped_env
+Wrappers.base_env
 ```

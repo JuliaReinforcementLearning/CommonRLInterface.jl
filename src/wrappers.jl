@@ -4,7 +4,9 @@ using CommonRLInterface
 
 export
     AbstractWrapper,
-    QuickWrapper
+    QuickWrapper,
+    wrapped_env,
+    base_env
 
 """
     AbstractWrapper
@@ -21,7 +23,7 @@ struct MyActionWrapper{E} <: AbstractWrapper
 end
     
 # Any subclass of AbstractWrapper MUST implement wrapped_env
-CommonRLInterface.wrapped_env(w::MyActionWrapper) = w.env
+Wrappers.wrapped_env(w::MyActionWrapper) = w.env
 
 # Now all CommonRLFunctions functions are forwarded
 w = MyActionWrapper(env)
@@ -33,12 +35,22 @@ CommonRLInterface.actions(w::MyActionWrapper) = [-1, 1]
 actions(w) # will now return [-1, 1]
 ```
 """
-abstract type AbstractWrapper end
+abstract type AbstractWrapper <: AbstractEnv end
 
 """
-Indicate what the wrapped environment is for an AbstractWrapper (see the AbstractWrapper docstring)
+Indicate what the wrapped environment is for an AbstractWrapper (see the AbstractWrapper docstring).
 """
 function wrapped_env end
+
+"""
+Returns the recursively unwrapped environment.
+"""
+function base_env(env::AbstractWrapper)
+    while env isa AbstractWrapper
+        env = wrapped_env(env)
+    end
+    return env
+end
 
 macro forward_to_wrapped(f)
     return :($f(w::AbstractWrapper, args...; kwargs...) = $f(wrapped_env(w), args...; kwargs...))
