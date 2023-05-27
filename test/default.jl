@@ -15,5 +15,14 @@
     @test actions(env)[D.valid_action_mask(env)] == actions(env)
     @test D.players(env) == 1
     @test D.player(env) == 1
-    @test D.UtilityStyle(env) == GeneralSum() # don't understand this one - it is not broken if I just include this file
+    @test D.UtilityStyle(env) == GeneralSum()
+
+    struct DefaultActionMaskTestEnv <: AbstractEnv
+        state::Int
+    end
+
+    CommonRLInterface.actions(::DefaultActionMaskTestEnv) = 1:3
+    CommonRLInterface.valid_actions(env::DefaultActionMaskTestEnv) = filter(!=(env.state), actions(env))
+    @test D.valid_actions(DefaultActionMaskTestEnv(1)) == 2:3
+    @test D.valid_action_mask(DefaultActionMaskTestEnv(1)) == [0,1,1]
 end

@@ -1,5 +1,8 @@
 using CommonRLInterface
 using Test
+using Documenter: doctest
+
+doctest(CommonRLInterface)
 
 mutable struct LQREnv <: AbstractEnv
     s::Float64

@@ -16,6 +16,7 @@ makedocs(;
         "required.md",
         "multiplayer.md",
         "optional.md",
+        "interacting.md",
         "wrappers.md",
         "faqs.md"
     ],
