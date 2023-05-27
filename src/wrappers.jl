@@ -6,7 +6,7 @@ export
     AbstractWrapper,
     QuickWrapper,
     wrapped_env,
-    base_env
+    unwrapped
 
 """
     AbstractWrapper
@@ -38,19 +38,26 @@ actions(w) # will now return [-1, 1]
 abstract type AbstractWrapper <: AbstractEnv end
 
 """
-Indicate what the wrapped environment is for an AbstractWrapper (see the AbstractWrapper docstring).
+    wrapped_env(env)
+
+Return the wrapped environment for an AbstractWrapper.
+
+This is a *required function* that must be provided by every AbstractWrapper.
+
+See also [`unwrapped`](@ref).
 """
 function wrapped_env end
 
 """
-Returns the recursively unwrapped environment.
+    unwrapped(env)
+
+Return the environment underneath all layers of wrappers.
+
+See also [wrapped_env`](@ref).
 """
-function base_env(env::AbstractWrapper)
-    while env isa AbstractWrapper
-        env = wrapped_env(env)
-    end
-    return env
-end
+unwrapped(env::AbstractWrapper) = unwrapped(wrapped_env(env))
+unwrapped(env::AbstractEnv) = env
+
 
 macro forward_to_wrapped(f)
     return :($f(w::AbstractWrapper, args...; kwargs...) = $f(wrapped_env(w), args...; kwargs...))
