@@ -66,6 +66,7 @@ function CommonRLInterface.act!(env::MyGame, a)
     return -o^2
 end
 CommonRLInterface.player(env::MyGame) = 1 + iseven(env.state)
+CommonRLInterface.UtilityStyle(env::MyGame) = GeneralSum()
 game = MyGame()
 
 function f end
@@ -121,8 +122,10 @@ end
     @test !provided(clone, MyEnv())
     @test !provided(player, MyEnv())
     @test !provided(actions, MyEnv(), 1)
+    @test !provided(UtilityStyle, MyEnv())
 
     @test provided(player, MyGame())
+    @test provided(UtilityStyle, MyGame())
 end
 
 @testset "environment" begin
@@ -143,6 +146,8 @@ end
     env1 = MyEnv(0)
     setstate!(env1, 1)
     @test state(env1) == 1
+
+    @test !provided(UtilityStyle, MyEnv(0))
 end
 
 @testset "spaces" begin
