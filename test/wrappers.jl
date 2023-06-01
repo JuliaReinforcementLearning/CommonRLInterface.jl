@@ -70,4 +70,14 @@
         @test clone(w2) isa QuickWrapper
         @test state(clone(w3)) == state(env)
     end
+
+    @testset "unwrapped" begin
+        base_env = WrapperTestEnv()
+        wrapped_1 = MyWrapper(base_env)
+        wrapped_2 = Wrappers.QuickWrapper(wrapped_1)
+        @test Wrappers.wrapped_env(wrapped_1) === base_env
+        @test Wrappers.wrapped_env(wrapped_2) === wrapped_1
+        @test Wrappers.unwrapped(wrapped_2) === base_env
+        @test Wrappers.unwrapped(base_env) === base_env
+    end
 end
