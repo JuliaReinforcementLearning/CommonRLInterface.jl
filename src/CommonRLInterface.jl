@@ -139,6 +139,10 @@ export
 include("multiplayer.jl")
 
 export
+    AutomaticDefault
+include("automatic_default.jl")
+
+export
     Wrappers
 include("wrappers.jl")
 

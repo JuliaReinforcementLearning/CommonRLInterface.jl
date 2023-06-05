@@ -23,7 +23,7 @@ function RL.all_act!(env::RockPaperScissors, as)
     end
 end
 
-RL.actions(env::RockPaperScissors, player=0) = (:rock, :paper, :scissors)
+RL.actions(env::RockPaperScissors) = (:rock, :paper, :scissors)
 RL.terminated(env::RockPaperScissors) = env.status == :done
 RL.reset!(env::RockPaperScissors) = env.status = :start
 RL.players(env::RockPaperScissors) = 1:2

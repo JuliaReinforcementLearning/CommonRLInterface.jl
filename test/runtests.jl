@@ -1,5 +1,8 @@
 using CommonRLInterface
 using Test
+using Documenter: doctest
+
+doctest(CommonRLInterface)
 
 mutable struct LQREnv <: AbstractEnv
     s::Float64
@@ -170,6 +173,8 @@ end
 include("examples/gridworld.jl")
 include("examples/tictactoe.jl")
 include("examples/rock_paper_scissors.jl")
+
+include("default.jl")
 
 include("wrappers.jl")
 include("deprecated.jl")

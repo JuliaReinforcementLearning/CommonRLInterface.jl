@@ -69,7 +69,6 @@ end
 @forward_to_wrapped CommonRLInterface.act!
 @forward_to_wrapped CommonRLInterface.terminated
 
-@forward_to_wrapped CommonRLInterface.player
 
 @forward_to_wrapped CommonRLInterface.render
 @forward_to_wrapped CommonRLInterface.state
@@ -78,6 +77,12 @@ end
 @forward_to_wrapped CommonRLInterface.valid_action_mask
 @forward_to_wrapped CommonRLInterface.observations
 # not straightforward to provide clone
+
+@forward_to_wrapped CommonRLInterface.players
+@forward_to_wrapped CommonRLInterface.player
+@forward_to_wrapped CommonRLInterface.all_act!
+@forward_to_wrapped CommonRLInterface.all_observe
+@forward_to_wrapped CommonRLInterface.UtilityStyle
 
 CommonRLInterface.provided(f::Function, w::AbstractWrapper, args...) = provided(f, wrapped_env(w), args...)
 CommonRLInterface.provided(::typeof(clone), w::AbstractWrapper, args...) = false
