@@ -56,6 +56,16 @@ export
     all_act!,
     all_observe,
     UtilityStyle
+
+
+function finalcall end
+
+finalcall(::typeof, ::AbstractEnv, )
+
+function f(args...) 
+    fc = finalcall(f, args...)
+    return first(fc)(fc[2:end]...)
+end
     
 # Required
 
